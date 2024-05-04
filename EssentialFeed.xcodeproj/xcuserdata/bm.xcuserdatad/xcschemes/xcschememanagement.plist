@@ -6,8 +6,33 @@
 	<dict>
 		<key>EssentialFeed.xcscheme_^#shared#^_</key>
 		<dict>
+			<key>isShown</key>
+			<false/>
 			<key>orderHint</key>
 			<integer>0</integer>
+		</dict>
+		<key>EssentialFeedTests.xcscheme_^#shared#^_</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>1</integer>
+		</dict>
+	</dict>
+	<key>SuppressBuildableAutocreation</key>
+	<dict>
+		<key>80BA96942BE61B43005F7E6F</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>80BA96A52BE61B45005F7E6F</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>80BA96AF2BE61B45005F7E6F</key>
+		<dict>
+			<key>primary</key>
+			<true/>
 		</dict>
 	</dict>
 </dict>
