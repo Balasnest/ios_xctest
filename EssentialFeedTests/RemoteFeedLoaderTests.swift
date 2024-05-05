@@ -18,7 +18,7 @@ class RemoteFeedLoaderTests: XCTestCase {
     func test_init_requestDataFromURL() {
         let url = URL(string: "http://www.google.com")
         let (sut, client) = makeSUT (url: url!)
-
+        
         sut.load { _ in }
         XCTAssertEqual(client.requestedURLs, [url])
     }
@@ -26,7 +26,7 @@ class RemoteFeedLoaderTests: XCTestCase {
     func test_init_requestDataFromURL_twice() {
         let url = URL(string: "http://www.google.com")
         let (sut, client) = makeSUT (url: url!)
-
+        
         sut.load { _ in }
         sut.load { _ in }
         XCTAssertEqual(client.requestedURLs, [url, url])
@@ -67,6 +67,23 @@ class RemoteFeedLoaderTests: XCTestCase {
         expect(sut, toCompleteWith: .success([]), when: {
             let emptyListJSON = Data(_: "{\"items\": []}".utf8)
             client.complete(withStatusCode: 200, data: emptyListJSON)
+        })
+    }
+    
+    func test_load_deliversItemsOn200HTTPResponseWithList() {
+        // Arrange:
+        let (sut, client) = makeSUT()
+        let item1 = FeedItem(uid: UUID(), imageURL: URL(string: "http://dd.com")!)
+        let item1JSON = [
+            "id": item1.uid.uuidString,
+            "image": item1.imageURL.absoluteString
+        ]
+        let itemsJSON = [
+            "items": [item1JSON]
+        ]
+        expect(sut, toCompleteWith: .success([item1]), when: {
+            let json = try! JSONSerialization.data(withJSONObject: itemsJSON)
+            client.complete(withStatusCode: 200, data: json)
         })
     }
     
