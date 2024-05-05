@@ -74,16 +74,13 @@ class RemoteFeedLoaderTests: XCTestCase {
         // Arrange:
         let (sut, client) = makeSUT()
         let item = makeItem(id: UUID(), description: nil, location: nil, imageURL: URL(string: "http://dd.com")!)
-        let itemsJSON = [
-            "items": [item.json]
-        ]
         let items = [item.model]
         expect(sut, toCompleteWith: .success(items), when: {
-            let json = try! JSONSerialization.data(withJSONObject: itemsJSON)
+            let json = makeItemJSON([item.json])
             client.complete(withStatusCode: 200, data: json)
         })
     }
-    
+     
     // MARK: - Helpers
     
     private func makeSUT(url: URL = URL(string: "http://www.google.com")!) -> (sut: RemoteFeedLoader, client: HTTPClientSpy) {
@@ -102,6 +99,11 @@ class RemoteFeedLoaderTests: XCTestCase {
         ].compactMapValues { $0 }
         
         return (item, json)
+    }
+    
+    private func makeItemJSON(_ items: [[String: Any]]) -> Data {
+        let itemsJSON = ["items": items]
+        return try! JSONSerialization.data(withJSONObject: itemsJSON)
     }
     
     private func expect(_ sut: RemoteFeedLoader, toCompleteWith result: RemoteFeedLoader.Result, when action: () -> Void, file: StaticString = #filePath, line: UInt = #line) {
