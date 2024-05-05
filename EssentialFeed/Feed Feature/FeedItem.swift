@@ -10,4 +10,6 @@ import Foundation
 struct FeedItem {
     let uid: UUID
     let description: String?
+    let location: String?
+    let image: String
 }
